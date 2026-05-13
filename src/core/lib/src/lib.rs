@@ -8,6 +8,8 @@ mod tool;
 mod trace;
 
 pub use registry::{SearchHit, ToolRegistry};
+#[doc(inline)]
+pub use schemars::json_schema;
 pub use tool::Tool;
 pub use trace::{
     ChurnKind, JsonlSink, MemorySink, NoopSink, Origin, SearchHitTrace, SearchStage, TraceEnvelope,

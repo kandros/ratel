@@ -2,13 +2,13 @@ use std::sync::Arc;
 
 use ratel_ai_core::{
     ChurnKind, JsonlSink, MemorySink, NoopSink, Origin, Tool, ToolRegistry, TraceEnvelope,
-    TraceEvent, TraceSink,
+    TraceEvent, TraceSink, json_schema,
 };
-use serde_json::{Value, json};
+use serde_json::Value;
 use tempfile::tempdir;
 
-fn empty_schema() -> Value {
-    json!({})
+fn empty_schema() -> schemars::Schema {
+    json_schema!({})
 }
 
 fn lookup_tool(id: &str) -> Tool {

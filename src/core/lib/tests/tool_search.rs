@@ -1,8 +1,7 @@
-use ratel_ai_core::{Tool, ToolRegistry};
-use serde_json::json;
+use ratel_ai_core::{Tool, ToolRegistry, json_schema};
 
-fn empty_schema() -> serde_json::Value {
-    json!({})
+fn empty_schema() -> schemars::Schema {
+    json_schema!({})
 }
 
 #[test]
@@ -66,7 +65,7 @@ fn kebab_case_property_key_is_split_for_natural_language_queries() {
         id: "tool".into(),
         name: "tool".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "user-id": {}
             }
@@ -126,7 +125,7 @@ fn search_ranks_stronger_match_above_weaker() {
         id: "weak".into(),
         name: "convert".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "format": {
                     "type": "string",
@@ -179,7 +178,7 @@ fn search_matches_output_schema_description() {
         name: "weather".into(),
         description: String::new(),
         input_schema: empty_schema(),
-        output_schema: json!({
+        output_schema: json_schema!({
             "properties": {
                 "temperature_celsius": {
                     "type": "number",
@@ -202,7 +201,7 @@ fn search_matches_nested_object_description() {
         id: "deploy".into(),
         name: "deploy".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "config": {
                     "type": "object",
@@ -236,7 +235,7 @@ fn search_matches_array_items_description() {
         id: "batch".into(),
         name: "batch".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "items": {
                     "type": "array",
@@ -268,7 +267,7 @@ fn search_matches_enum_value() {
         id: "convert".into(),
         name: "convert".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "format": {
                     "type": "string",
@@ -292,7 +291,7 @@ fn search_matches_input_param_description() {
         id: "fetch".into(),
         name: "fetch".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "url": {
                     "type": "string",
@@ -316,7 +315,7 @@ fn search_matches_input_param_name() {
         id: "fetch".into(),
         name: "fetch".into(),
         description: String::new(),
-        input_schema: json!({
+        input_schema: json_schema!({
             "properties": {
                 "endpoint": {}
             }

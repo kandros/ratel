@@ -52,14 +52,17 @@ impl ToolRegistry {
     }
 
     #[napi]
-    pub fn register(&mut self, tool: Tool) {
-        self.inner.register(core::Tool {
-            id: tool.id,
-            name: tool.name,
-            description: tool.description,
-            input_schema: tool.input_schema,
-            output_schema: tool.output_schema,
-        });
+    pub fn register(&mut self, tool: Tool) -> napi::Result<()> {
+        let tool = core::Tool::try_from_json_schemas(
+            tool.id,
+            tool.name,
+            tool.description,
+            tool.input_schema,
+            tool.output_schema,
+        )
+        .map_err(|e| napi::Error::from_reason(format!("invalid tool JSON Schema: {e}")))?;
+        self.inner.register(tool);
+        Ok(())
     }
 
     #[napi]

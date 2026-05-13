@@ -8,8 +8,10 @@ pub(crate) fn searchable_text(tool: &Tool) -> String {
     if !tool.description.is_empty() {
         tokens.push(tool.description.clone());
     }
-    flatten(&tool.input_schema, &mut tokens);
-    flatten(&tool.output_schema, &mut tokens);
+    let input = serde_json::to_value(&tool.input_schema).expect("schema serializes to JSON");
+    let output = serde_json::to_value(&tool.output_schema).expect("schema serializes to JSON");
+    flatten(&input, &mut tokens);
+    flatten(&output, &mut tokens);
     tokens.join(" ")
 }
 
@@ -69,15 +71,16 @@ fn push_field_tokens(sub: &serde_json::Value, tokens: &mut Vec<String>) {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use serde_json::json;
+    use super::Tool;
+    use super::searchable_text;
+    use crate::json_schema;
 
     fn read_file_tool() -> Tool {
         Tool {
             id: "read_file".into(),
             name: "read_file".into(),
             description: "Read a file from disk".into(),
-            input_schema: json!({
+            input_schema: json_schema!({
                 "properties": {
                     "path": {
                         "type": "string",
@@ -90,7 +93,7 @@ mod tests {
                     }
                 }
             }),
-            output_schema: json!({}),
+            output_schema: json_schema!({}),
         }
     }
 
